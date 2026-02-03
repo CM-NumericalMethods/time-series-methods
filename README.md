@@ -62,7 +62,7 @@ As part of demonstrating performance, the model was caibrated using S&P 500 retu
 
 ### 4.2 Out-of-Sample Performance: Rolling Window Backtesting
 
-<! To validate the model's predictive power, a one-step-ahead rolling window backtest must be performed. This simulates real-world usage where the model is refitted daily on the most recent data (the estimation window) to forecast the next day's VaR (the forecast horizon). This validation module is currently under development; out-of-sample violation ratios and Kupiec POF test (first line of defence) results will be published here when completed.-->
+<! To validate the model's predictive power, a one-step-ahead rolling window backtest must be performed. This simulates real-world usage where the model is refitted daily on the most recent data (the estimation window) to forecast the next day's VaR (the forecast horizon). This validation module is currently under development; out-of-sample violation ratios and Kupiec POF test (first line of defence) results will be published here when completed. -->
 
 ### 4.3 Second Line Audit Summary
 
