@@ -64,6 +64,12 @@ As part of demonstrating performance, the model was caibrated using S&P 500 retu
 
 <!-- To validate the model's predictive power, a one-step-ahead rolling window backtest must be performed. This simulates real-world usage where the model is refitted daily on the most recent data (the estimation window) to forecast the next day's VaR (the forecast horizon). This validation module is currently under development; out-of-sample violation ratios and Kupiec POF test (first line of defence) results will be published here when completed. -->
 
+To validate the model's predictive power, a one-step-ahead walk-forward (rolling window) bactest was performed. This iterative process refits the model daily to forecast the next day's VaR, ensuring the model can adapt to changing market regimes.
+
+#### 4.2.1 Development of the Backtest (Research to Production)
+
+<!-- The initial iteration (the research version--de_meaned_gjr_garch.py--to be renamed) -->
+
 ### 4.3 Second Line Audit Summary
 
 The following table reports the in-sample diagnostics for the second line audit summary:
