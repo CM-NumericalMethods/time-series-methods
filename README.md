@@ -74,10 +74,15 @@ The initial iteration (the second research version which included the Kupiec tes
 
 * **Total Days:** 875 | **Actual Exceedences:** 0 | **Hit Ratio:** 0.00\%
 * **Kupiec LR:** 17.5881 | **p-value:** 0.0000
+* **Independence LR:** -0.0000 | **Independence p-value:** 1.0000
+
+Two interesting results are exhibited above. The first is the independence LR (for the Christofferesen Independence test) of *negative* 0.000. The negative sign indicates that the optimizer was approaching from the negative side of the number line. This happens because of the subtraction of two nearly identical floating point numbers resulting from the <!-- natural --> logarithms used in the calculation of the Christoffersen test. The result was actually a miniscule finite negative number, but this was output as ``-0.0000'' because the script said to round to four decimal places. The second interesting aspect is that the Independence test was a perfect pass. The null hypothesis was perfectly accepted. However, this is a ``spurious success'' because the model already failed the Kupiec test. Because there were no exceedences at all, there were no exceedences to test for ``clumping'' (e.g., a succession of exceedences as opposed to exceedences scattered throughout the window).
+
+This version of the model is overly conservative. It is setting the VaR too low, such that no actual returns can fall beneath it. If a financial institution were to act on this result, it would tend to reserve too much capital, resulting in a potentially large opportunity cost for not putting more at risk.
 
 **Modifications for the Production Version:**
 
-To resolve the failure of the research version, the optimization algorithm was refined to improve parameter convergence under high-volatility regimes, and the Student's $t$ degrees-of-freedom estimation was adjusted to better capture the actual kurtosis of the returns. Additionally, the window was increased from 252 days to 504 days to allow the optimizer to converge, providing better estimation of the parameters of the GJR-GARCH equation.
+To resolve the failure of the research version, the optimization algorithm was refined to improve parameter convergence under high-volatility regimes, and the Student's $t$ degrees-of-freedom estimation was adjusted to better capture the excess kurtosis of the returns. Additionally, the window was increased from 252 days to 504 days to allow the optimizer to converge, providing better estimation of the parameters of the GJR-GARCH equation. In other words, the optimizer cannot see enough market events in 252 days to find a stable mathematical solution. Doubling the window size allowed the optimizer to reach numerical convergence and capture the volatility and asymmetry (leverage effect) it could not capture over 252 days. In addition to this, including a rigid scale factor (scale_factor: float = 10.0) made the research version of the model a bit of a blunt instrument that was insensitive to a regime change. In the production model, the dullness was sharpened with rescale=True, allowing the VaR floor to be reactive rather than static.
 
 Regarding the optimizer, initial documentation reflected evaluation of the model through the lens of standard quasi-Newton solvers such as BFGS. However, after moving to the production version of the model, deeper audit of the arch library's underlying mechanics revealed that SLSQP was the actual optimization engine that provided stability for my constraints. The documentation is now updated to be consistent with this realization. This is an important point for regulatory audit trails.
 
@@ -87,7 +92,7 @@ The refined production version of the GJR-GARCH passed both the Kupiec POF and t
 
 * **Total Days:** 1507 | **Actual Exceedences:** 13 | **Hit Ratio:** 0.86\% (Target: 1.0\%)
 * **Kupiec LR:** 0.3012 | **p-value:** 0.5831 (**SUCCESS**)
-* **Independence LR:** 0.2264 | **p-value:** 0.6342 (**SUCCESS**)
+* **Independence LR:** 0.2264 | **Independence p-value:** 0.6342 (**SUCCESS**)
 
 <!-- "In my initial documentation and research phase, I was evaluating the model through the lens of standard quasi-Newton solvers like BFGS. However, upon moving to the 'finished' production version (V11), I performed a deeper audit of the arch library's underlying mechanics. I realized that SLSQP was the actual engine providing the stability for the constraints. I've since updated my documentation to reflect this, as accuracy in the 'information layer' of the model is paramount for regulatory audit trails." -->
 
