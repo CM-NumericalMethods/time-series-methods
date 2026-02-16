@@ -37,7 +37,9 @@ The GJR-GARCH structure is too complicated to carry out maximum likelihood estim
 
 2.  **Numerical Optimization:**
     * (a) The maximization is performed iteratively using the Broyden-Fletcher-Goldfarb-Shanno (BFGS) algorithm.
+        * *Update: the initial research phase considered the Log-Likelihood surface through the lens of quasi-Newton methods like BFGS. However, for the production-grade engine, **SLSQP** was verified as the active solver. This is numerically superior for GJR-GARCH because it explicitly respects the parameter bounds necessary to maintain positive-definite variance. The transition from the research version to the production version regarded stabilizing this SLSQP routine through better data conditioning (the 504-day window).*
     * (b) BFGS is a quasi-Newton method that efficiently approximates the second derivatives (the Hessian matrix) of the log-likelihood function to rapidly find the global maximum while maintaining stability. The rapidity and stability of this approximation is critical for production environments.
+         * *Update: another reason SLSQP is used instead of BFGS is that BFGS is unconstrained while SLSQP is constrained and is thus suited for GARCH models.*
 
 ## 3 Regulatory and Audit Diagnostics
 
