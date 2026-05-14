@@ -53,7 +53,7 @@ The model is validated using a falsification structure by way of a custom except
 
 ## 4 Performance Demonstration
 
-As part of demonstrating performance, the model was caibrated using S&P 500 returns from 2019 to 2024.
+As part of demonstrating performance, the model was calibrated using S&P 500 returns from 2019 to 2024.
 
 ### 4.1 Static Fit and Conditional Forecast
 
